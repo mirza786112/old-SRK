@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:fl_pip/fl_pip.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -639,55 +641,55 @@ class _VideoAppState extends State<VideoApp> {
               // Close button for Android
 
               // remove this sizebox when build for android
-// SizedBox(),
-              Focus(
-                onKey: (FocusNode node, RawKeyEvent event) {
-                  // Handle key events
-                  if (event is RawKeyDownEvent) {
-                    if (event.logicalKey == LogicalKeyboardKey.select ||
-                        event.logicalKey == LogicalKeyboardKey.enter){
-                      provider.checkAndCloseDrawer(context);
-                      if(Platform.isIOS){
-                        // FlutterExitApp.exitApp();
-                      }else{
-                        SystemNavigator.pop();
-                      }                   }
-                  }
-                  return KeyEventResult.ignored;
-                },
-                child: Builder(
-                  builder: (context){
-                    final focusNode = Focus.of(context);
-                    return InkWell(
-                      onTap: () async {
-                        await provider.checkAndCloseDrawer(context);
-                        if(Platform.isIOS){
-                          // FlutterExitApp.exitApp();
-                        }else{
-                          SystemNavigator.pop();
-                        }
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 30,
-                        width: 70,
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(3),
-                            border: Border.all(color: focusNode.hasFocus?Colors.red:Colors.transparent,width: 2)
-                        ),
-                        child: const Text(
-                          'CLOSE',
-                          style: TextStyle(
-                            letterSpacing: 3,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'condensedBold',
-                            fontSize: 19,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                ),
-              ),
+SizedBox(),
+//               Focus(
+//                 onKey: (FocusNode node, RawKeyEvent event) {
+//                   // Handle key events
+//                   if (event is RawKeyDownEvent) {
+//                     if (event.logicalKey == LogicalKeyboardKey.select ||
+//                         event.logicalKey == LogicalKeyboardKey.enter){
+//                       provider.checkAndCloseDrawer(context);
+//                       if(Platform.isIOS){
+//                         // FlutterExitApp.exitApp();
+//                       }else{
+//                         SystemNavigator.pop();
+//                       }                   }
+//                   }
+//                   return KeyEventResult.ignored;
+//                 },
+//                 child: Builder(
+//                   builder: (context){
+//                     final focusNode = Focus.of(context);
+//                     return InkWell(
+//                       onTap: () async {
+//                         await provider.checkAndCloseDrawer(context);
+//                         if(Platform.isIOS){
+//                           // FlutterExitApp.exitApp();
+//                         }else{
+//                           SystemNavigator.pop();
+//                         }
+//                       },
+//                       child: Container(
+//                         alignment: Alignment.center,
+//                         height: 30,
+//                         width: 70,
+//                         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(3),
+//                             border: Border.all(color: focusNode.hasFocus?Colors.red:Colors.transparent,width: 2)
+//                         ),
+//                         child: const Text(
+//                           'CLOSE',
+//                           style: TextStyle(
+//                             letterSpacing: 3,
+//                             fontWeight: FontWeight.bold,
+//                             fontFamily: 'condensedBold',
+//                             fontSize: 19,
+//                           ),
+//                         ),
+//                       ),
+//                     );
+//                   }
+//                 ),
+//               ),
               // end
 
               Row(
@@ -750,7 +752,15 @@ class _VideoAppState extends State<VideoApp> {
                         GestureDetector(
                         onTap: () async {
                           await provider.checkAndCloseDrawer(context);
-                          provider.enterPiPMode();
+                          if(provider.controller.value.isPlaying) {
+                            provider.enterPiPMode();
+                          } else {
+                            Fluttertoast.showToast(msg: 'Video not playing');
+                          }
+                          // enable();
+
+                       // bool val=  await FlPiP().isAvailable;
+                       //   await Fluttertoast.showToast(msg: val.toString());
                         },
                         child: Image.asset(
                           'assets/ic_exo_popin.png',
@@ -871,6 +881,13 @@ class _VideoAppState extends State<VideoApp> {
         print('Error sharing image: $e');
       }
     }
+  }
+  void enable() {
+    FlPiP().enable(
+        ios: const FlPiPiOSConfig(),
+        android: const FlPiPAndroidConfig(
+            aspectRatio: Rational.maxLandscape()));
+    FlPiP().toggle(AppState.background);
   }
 }
 

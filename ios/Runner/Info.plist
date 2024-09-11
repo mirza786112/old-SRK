@@ -62,5 +62,17 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to share images.</string>
+    <key>NSBonjourServices</key>
+    <array>
+    <string>_dartobservatory._tcp</string>
+    </array>
+    <key>UIBackgroundModes</key>
+    <array>
+    <string>audio</string>
+    <string>processing</string>
+    <string>remote-notification</string>
+    </array>
 </dict>
 </plist>

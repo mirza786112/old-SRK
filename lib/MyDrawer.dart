@@ -107,7 +107,7 @@ class MyDrawer extends StatelessWidget {
                 builder:(context){
                   final focusNode = Focus.of(context);
                   return
-                    GestureDetector(
+                    InkWell(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>const AboutPage()));
                       },
@@ -149,7 +149,7 @@ class MyDrawer extends StatelessWidget {
                   builder:(context){
                     final focusNode = Focus.of(context);
                     return
-                      GestureDetector(
+                      InkWell(
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>const TermsConditions()));
                         },
@@ -190,7 +190,7 @@ class MyDrawer extends StatelessWidget {
                 builder:(context){
                   final focusNode = Focus.of(context);
                   return
-                  GestureDetector(
+                    InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> const PrivacyPolicy()));
                   },

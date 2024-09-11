@@ -33,31 +33,29 @@ private let CHANNEL = "pip.channel"
         secureView.isUserInteractionEnabled = false
         window?.addSubview(secureView)
         window?.bringSubviewToFront(secureView)
-//        secureView.isSecureTextEntry = true
 
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 
     private func enterPiPMode(result: @escaping FlutterResult) {
-        guard let rootViewController = UIApplication.shared.windows.first?.rootViewController else {
-            result(FlutterError(code: "NO_ROOT_VIEW_CONTROLLER", message: "No root view controller found", details: nil))
+        guard let player = self.player else {
+            result(FlutterError(code: "NO_PLAYER", message: "No AVPlayer instance found", details: nil))
             return
         }
+
         let playerLayer = AVPlayerLayer(player: player)
-        let player = AVPictureInPictureController(playerLayer: playerLayer)
-//        if player.isPictureInPictureSupported {
-//            player.startPictureInPicture()
-//            result(nil)
-//        } else {
-//            result(FlutterError(code: "NOT_SUPPORTED", message: "Picture-in-Picture mode is not supported on this device", details: nil))
-//        }
+        let pipController = AVPictureInPictureController(playerLayer: playerLayer)
+
+        // Check if Picture-in-Picture is supported
+        if (AVPictureInPictureController.isPictureInPictureSupported()){
+            pipController?.startPictureInPicture()
+            result(nil)}
+         else {
+            result(FlutterError(code: "NOT_SUPPORTED", message: "Picture-in-Picture mode is not supported on this device", details: nil))
+        }
     }
 
     private func toggleMute(result: @escaping FlutterResult) {
-        guard let rootViewController = UIApplication.shared.windows.first?.rootViewController else {
-            result(FlutterError(code: "NO_ROOT_VIEW_CONTROLLER", message: "No root view controller found", details: nil))
-            return
-        }
         if let player = self.player {
             isMuted = !isMuted
             player.isMuted = isMuted

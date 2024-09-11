@@ -299,7 +299,7 @@ class VideoProvider with ChangeNotifier {
 
       playedUrlImagePath=imagePath;
       notifyListeners();
-      controller = VideoPlayerController.network(url)
+      controller = VideoPlayerController.networkUrl(Uri.parse(url))
         ..initialize().then((_) {
           if(isMute){
             controller.setVolume(0.0);

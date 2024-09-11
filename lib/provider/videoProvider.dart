@@ -218,22 +218,6 @@
 //   }
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -256,13 +240,11 @@ class VideoProvider with ChangeNotifier {
   ];
 
   // focuses
-  FocusNode sliderFocus=FocusNode();
-  FocusNode shareFocus=FocusNode();
-  FocusNode menuFocus=FocusNode();
-  FocusNode volumeFocus=FocusNode();
-  FocusNode closeFocus=FocusNode();
-
-
+  FocusNode sliderFocus = FocusNode();
+  FocusNode shareFocus = FocusNode();
+  FocusNode menuFocus = FocusNode();
+  FocusNode volumeFocus = FocusNode();
+  FocusNode closeFocus = FocusNode();
 
   bool videoPlayError = false;
   String? errorDescription;
@@ -273,7 +255,8 @@ class VideoProvider with ChangeNotifier {
   Timer? timer;
 
   String? playedUrlImagePath;
-  String firstUrl='https://cdn.ncare.live/flixhls/flixsrktv.stream/chunks.m3u8';
+  String firstUrl =
+      'https://cdn.ncare.live/flixhls/flixsrktv.stream/chunks.m3u8';
 
   double brightness = 30;
 
@@ -283,7 +266,10 @@ class VideoProvider with ChangeNotifier {
     setBrightness(30);
     onVideoPlay();
     hideStatusBarTemporarily();
-    initializeVideoPlayer('https://cdn.ncare.live/flixhls/flixsrktv.stream/chunks.m3u8',true,'');
+    initializeVideoPlayer(
+        'https://cdn.ncare.live/flixhls/flixsrktv.stream/chunks.m3u8',
+        true,
+        '');
     // initializeVideoPlayer('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4', false);
   }
 
@@ -293,15 +279,17 @@ class VideoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initializeVideoPlayer(String url, bool second,String imagePath) async {
+  Future<void> initializeVideoPlayer(
+      String url, bool second, String imagePath) async {
     try {
       onVideoPlay();
 
-      playedUrlImagePath=imagePath;
+      playedUrlImagePath = imagePath;
       notifyListeners();
-      controller = VideoPlayerController.networkUrl(Uri.parse(url))
+      controller = VideoPlayerController.networkUrl(Uri.parse(
+          "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"))
         ..initialize().then((_) {
-          if(isMute){
+          if (isMute) {
             controller.setVolume(0.0);
           }
           onVideoPlay();
@@ -358,8 +346,7 @@ class VideoProvider with ChangeNotifier {
       // Fluttertoast.showToast(msg: controller.value.errorDescription?.split(':').last.toString() ?? 'Unknown error');
       // initializeVideoPlayer('https://cdn.ncare.live/flixhls/flixsrktv.stream/chunks.m3u8', true);
     } else {
-
-      if(!controller.value.isInitialized){
+      if (!controller.value.isInitialized) {
         errorDescription = controller.value.errorDescription?.split(':').last ??
             'Unknown error';
         print('Video player error: $errorDescription');
@@ -373,9 +360,8 @@ class VideoProvider with ChangeNotifier {
     }
   }
 
-
-  toggleTv(){
-    showOverlay=true;
+  toggleTv() {
+    showOverlay = true;
     timer?.cancel();
     timer = Timer(const Duration(seconds: 7), () {
       if (showOverlay) {
@@ -387,9 +373,7 @@ class VideoProvider with ChangeNotifier {
   }
 
   void toggleOverlay() {
-
     showOverlay = !showOverlay;
-
 
     // for hiding status bar
     // if (!showOverlay) {
